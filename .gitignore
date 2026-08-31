@@ -1,32 +1,26 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
+# Build outputs
 *.exe
+*.o
 *.out
-*.app
+a.exe
+
+# Runtime data files (created by the game)
+src/savegame.txt
+src/scoreBoard.txt
+src/settings.bin
+src/usersave.bin
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.user
+*.suo
+src/.vscode/
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Logs
+*.log
