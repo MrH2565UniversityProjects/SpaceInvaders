@@ -1,4 +1,4 @@
-#pragma ones
+#pragma once
 #include <iostream>
 #include <cmath>
 #include <windows.h>
