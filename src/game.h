@@ -92,7 +92,7 @@ struct EnemiesData
 	Enemy enemies[3][10];
 	Enemy *bottomEnemy[10] = {nullptr};
 	Enemy *bottommostEnemy = nullptr;
-	Enemy *leftestEnemy = nullptr;
+	Enemy *leftmostEnemy = nullptr;
 	Enemy *rightestEnemy = nullptr;
 	int aliveEnemyCount = 0;
 	int dir = 1;

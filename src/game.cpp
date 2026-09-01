@@ -197,7 +197,7 @@ void SetRightestEnemy(EnemiesData &data)
     }
 }
 
-void SetLeftestEnemy(EnemiesData &data)
+void SetLeftmostEnemy(EnemiesData &data)
 {
     for (int i = 0; i < 10; i++)
     {
@@ -205,7 +205,7 @@ void SetLeftestEnemy(EnemiesData &data)
         {
             if (data.enemies[j][i].isAlive)
             {
-                data.leftestEnemy = &data.enemies[j][i];
+                data.leftmostEnemy = &data.enemies[j][i];
                 break;
             }
         }
@@ -265,7 +265,7 @@ void initialEnemies(EnemiesData &data)
         }
     }
     SetRightestEnemy(data);
-    SetLeftestEnemy(data);
+    SetLeftmostEnemy(data);
     SetBottommostEnemy(data);
     SetBottomEnemies(data, true);
 }
@@ -503,7 +503,7 @@ void MoveEnemies(GameObjects &gameObjects)
 {
     bool goDown = false;
     EnemiesData &data = gameObjects.enemiesData;
-    if (((data.dir == 1) && (*data.leftestEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightestEnemy).positionX <= 11))
+    if (((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightestEnemy).positionX <= 11))
     {
         goDown = true;
         data.dir = -data.dir;
@@ -541,7 +541,7 @@ void EraseEnemies(EnemiesData &data)
         {
             if (data.enemies[i][j].isAlive)
             {
-                if ((data.effectdir > 0 || ((data.dir == 1) && (*data.leftestEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightestEnemy).positionX <= 5)))
+                if ((data.effectdir > 0 || ((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightestEnemy).positionX <= 5)))
                 {
                     EraseUp(5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
@@ -618,9 +618,9 @@ void CheckEnemyCollision(GameObjects &gameObjects)
                 {
                     SetRightestEnemy(gameObjects.enemiesData);
                 }
-                if (!(*gameObjects.enemiesData.leftestEnemy).isAlive)
+                if (!(*gameObjects.enemiesData.leftmostEnemy).isAlive)
                 {
-                    SetLeftestEnemy(gameObjects.enemiesData);
+                    SetLeftmostEnemy(gameObjects.enemiesData);
                 }
                 if (!(*gameObjects.enemiesData.bottommostEnemy).isAlive)
                 {
