@@ -232,7 +232,7 @@ void SetBottomEnemies(EnemiesData &data, bool initialMode)
         }
     }
 }
-void SetBottomestEnemy(EnemiesData &data)
+void SetBottommostEnemy(EnemiesData &data)
 {
     for (int i = 0; i < 10; i++)
     {
@@ -240,7 +240,7 @@ void SetBottomestEnemy(EnemiesData &data)
         {
             if (data.enemies[j][i].isAlive)
             {
-                data.bottomestEnemy = &data.enemies[j][i];
+                data.bottommostEnemy = &data.enemies[j][i];
                 break;
             }
         }
@@ -266,7 +266,7 @@ void initialEnemies(EnemiesData &data)
     }
     SetRightestEnemy(data);
     SetLeftestEnemy(data);
-    SetBottomestEnemy(data);
+    SetBottommostEnemy(data);
     SetBottomEnemies(data, true);
 }
 GameObjects InitializeGameObjects(GameOptions &game)
@@ -622,9 +622,9 @@ void CheckEnemyCollision(GameObjects &gameObjects)
                 {
                     SetLeftestEnemy(gameObjects.enemiesData);
                 }
-                if (!(*gameObjects.enemiesData.bottomestEnemy).isAlive)
+                if (!(*gameObjects.enemiesData.bottommostEnemy).isAlive)
                 {
-                    SetBottomestEnemy(gameObjects.enemiesData);
+                    SetBottommostEnemy(gameObjects.enemiesData);
                 }
                 SetBottomEnemies(gameObjects.enemiesData, false);
 
@@ -673,7 +673,7 @@ void MoveEnemyBullet(GameObjects &gameObjects)
 }
 bool CheckEnemyCatchShip(GameObjects &gameObjects)
 {
-    return (*gameObjects.enemiesData.bottomestEnemy).positionY + 3 >= gameObjects.playerShip.positionY;
+    return (*gameObjects.enemiesData.bottommostEnemy).positionY + 3 >= gameObjects.playerShip.positionY;
 }
 bool CheckShipAlive(GameObjects &gameObjects)
 {
