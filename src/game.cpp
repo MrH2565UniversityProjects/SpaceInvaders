@@ -527,7 +527,7 @@ void MoveEnemies(GameObjects &gameObjects)
                 }
             }
             data.enemies[i][j].positionY += data.effectdir;
-            data.enemies[i][j].IsOne = !data.enemies[i][j].IsOne;
+            data.enemies[i][j].isFirstFrame = !data.enemies[i][j].isFirstFrame;
         }
     }
     data.effectdir = -data.effectdir;
@@ -571,7 +571,7 @@ void DrawEnemies(EnemiesData &data)
             if (data.enemies[i][j].isAlive)
             {
                 int *entity = nullptr;
-                if (data.enemies[i][j].IsOne)
+                if (data.enemies[i][j].isFirstFrame)
                 {
                     entity = (int *)data.enemies[i][j].entity1;
                 }

@@ -80,7 +80,7 @@ struct Enemy
 	unsigned short int health;
 	int entity1[3][5];
 	int entity2[3][5];
-	bool IsOne = 0;
+	bool isFirstFrame = 0;
 	bool isAlive;
 	int Score = 100;
 	int positionX;
