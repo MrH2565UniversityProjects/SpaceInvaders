@@ -182,7 +182,7 @@ void CreateLevel(GameOptions &game)
     startLevel.health = game.maxHealth;
     game.currentLevel = startLevel;
 }
-void SetRightestEnemy(EnemiesData &data)
+void SetRightmostEnemy(EnemiesData &data)
 {
     for (int i = 9; i >= 0; i--)
     {
@@ -190,7 +190,7 @@ void SetRightestEnemy(EnemiesData &data)
         {
             if (data.enemies[j][i].isAlive)
             {
-                data.rightestEnemy = &data.enemies[j][i];
+                data.rightmostEnemy = &data.enemies[j][i];
                 break;
             }
         }
@@ -264,7 +264,7 @@ void initialEnemies(EnemiesData &data)
             //}
         }
     }
-    SetRightestEnemy(data);
+    SetRightmostEnemy(data);
     SetLeftmostEnemy(data);
     SetBottommostEnemy(data);
     SetBottomEnemies(data, true);
@@ -503,7 +503,7 @@ void MoveEnemies(GameObjects &gameObjects)
 {
     bool goDown = false;
     EnemiesData &data = gameObjects.enemiesData;
-    if (((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightestEnemy).positionX <= 11))
+    if (((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightmostEnemy).positionX <= 11))
     {
         goDown = true;
         data.dir = -data.dir;
@@ -541,7 +541,7 @@ void EraseEnemies(EnemiesData &data)
         {
             if (data.enemies[i][j].isAlive)
             {
-                if ((data.effectdir > 0 || ((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightestEnemy).positionX <= 5)))
+                if ((data.effectdir > 0 || ((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightmostEnemy).positionX <= 5)))
                 {
                     EraseUp(5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
@@ -614,9 +614,9 @@ void CheckEnemyCollision(GameObjects &gameObjects)
                     DrawScore(gameObjects);
                     EraseFill(3, 5, enemy.positionX, enemy.positionY);
                 }
-                if (!(*gameObjects.enemiesData.rightestEnemy).isAlive)
+                if (!(*gameObjects.enemiesData.rightmostEnemy).isAlive)
                 {
-                    SetRightestEnemy(gameObjects.enemiesData);
+                    SetRightmostEnemy(gameObjects.enemiesData);
                 }
                 if (!(*gameObjects.enemiesData.leftmostEnemy).isAlive)
                 {
