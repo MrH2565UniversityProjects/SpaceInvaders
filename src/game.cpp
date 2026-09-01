@@ -93,7 +93,7 @@ void EraseRight(int row, int col, int cursorX, int cursorY)
         cout << " " << FG_WHITE;
     }
 }
-string GenenrateCharacter(int code)
+string GenerateCharacter(int code)
 {
     switch (code)
     {
@@ -132,7 +132,7 @@ void DrawEntity(int *entity, int row, int col, int cursorX, int cursorY, bool is
             int value = *currentEntity++;
             if (!isErase && value > 0)
             {
-                string character = GenenrateCharacter((value % 10));
+                string character = GenerateCharacter((value % 10));
                 string color = GenerateANSI(value / 10);
                 if (color != lastColor)
                 {
