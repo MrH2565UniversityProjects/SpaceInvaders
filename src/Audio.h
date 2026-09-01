@@ -9,7 +9,7 @@ void PlayBackgroundMusic();
 void StopBackgroundMusic();
 void PlayNavigateSound();
 void PlayShotSound();
-void PlayColistionSound();
+void PlayCollisionSound();
 void PlayChangeSound();
 void PlayAlertSound();
 void PlayGameMusic();

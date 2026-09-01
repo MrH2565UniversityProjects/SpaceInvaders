@@ -62,8 +62,8 @@ void PlayNavigateSound() {
 void PlayShotSound() {
     PlayEffectSound("Shot.wav");
 }
-void PlayColistionSound() {
-    PlayEffectSound("Colistion.wav");
+void PlayCollisionSound() {
+    PlayEffectSound("Collision.wav");
 }
 void PlayAlertSound() {
     PlayEffectSound("Alert.wav");

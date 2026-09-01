@@ -602,7 +602,7 @@ void CheckEnemyCollision(GameObjects &gameObjects)
                 Gotoxy(gameObjects.playerBullet.positionX, gameObjects.playerBullet.positionY);
                 cout << " ";
                 if(settings.Sound){
-                    PlayColistionSound();
+                    PlayCollisionSound();
                 }
                 if (enemy.health <= 0)
                 {
@@ -686,7 +686,7 @@ void CheckEnemySpaceshipCollision(GameObjects &gameObjects)
     if ((i >= 0 && j >= 0 && j < 8 && i < 2) && gameObjects.EnemySpaceship.entity[i][j])
     {
         if(settings.Sound){
-                    PlayColistionSound();
+                    PlayCollisionSound();
             }
         gameObjects.EnemySpaceship.isAlive = false;
         gameObjects.Score += gameObjects.EnemySpaceship.Score;
