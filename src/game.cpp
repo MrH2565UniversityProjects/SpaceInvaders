@@ -372,7 +372,7 @@ void ShowPauseMenu(GameOptions &game)
     Button ContinueButton = {"Continue", {0, 0}, true, 0};
     Button RestartButton = {"Restart Game", {1, 0}, true, 2};
     Button QuitButton = {"Quit Game", {2, 0}, true, 3};
-    Button ExitButton = {"Exit Space Invadors", {3, 0}, true, 4};
+    Button ExitButton = {"Exit Space Invaders", {3, 0}, true, 4};
     InitialElementGrid(form);
     AddButtonToForm(form, &ContinueButton);
     AddButtonToForm(form, &RestartButton);
