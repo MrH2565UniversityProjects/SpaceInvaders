@@ -12,6 +12,8 @@ using namespace std;
 
 const unsigned short int lengthScreen = 41;
 const unsigned short int widthScreen = 120;
+const int ENEMY_ROWS = 3;
+const int ENEMY_COLS = 10;
 
 enum GameDifficulty{
     EASY,
@@ -89,7 +91,7 @@ struct Enemy
 
 struct EnemiesData
 {
-	Enemy enemies[3][10];
+	Enemy enemies[ENEMY_ROWS][ENEMY_COLS];
 	Enemy *bottomEnemy[10] = {nullptr};
 	Enemy *bottommostEnemy = nullptr;
 	Enemy *leftmostEnemy = nullptr;

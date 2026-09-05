@@ -184,9 +184,9 @@ void CreateLevel(GameOptions &game)
 }
 void SetRightmostEnemy(EnemiesData &data)
 {
-    for (int i = 9; i >= 0; i--)
+    for (int i = ENEMY_COLS - 1; i >= 0; i--)
     {
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < ENEMY_ROWS; j++)
         {
             if (data.enemies[j][i].isAlive)
             {
@@ -199,9 +199,9 @@ void SetRightmostEnemy(EnemiesData &data)
 
 void SetLeftmostEnemy(EnemiesData &data)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < ENEMY_COLS; i++)
     {
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < ENEMY_ROWS; j++)
         {
             if (data.enemies[j][i].isAlive)
             {
@@ -213,11 +213,11 @@ void SetLeftmostEnemy(EnemiesData &data)
 }
 void SetBottomEnemies(EnemiesData &data, bool initialMode)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < ENEMY_COLS; i++)
     {
         // bool check = (initialMode || data.bottomEnemy[i] != nullptr) && (data.bottomEnemy[i] == nullptr || (*data.bottomEnemy[i]).isAlive);
         // for (int j = 2; j >= -1 && check; j--)
-        for (int j = 2; j >= -1; j--)
+        for (int j = ENEMY_ROWS - 1; j >= -1; j--)
         {
             if (j == -1)
                 data.bottomEnemy[i] = nullptr;
@@ -234,9 +234,9 @@ void SetBottomEnemies(EnemiesData &data, bool initialMode)
 }
 void SetBottommostEnemy(EnemiesData &data)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < ENEMY_COLS; i++)
     {
-        for (int j = 2; j >= 0; j--)
+        for (int j = ENEMY_ROWS - 1; j >= 0; j--)
         {
             if (data.enemies[j][i].isAlive)
             {
@@ -249,9 +249,9 @@ void SetBottommostEnemy(EnemiesData &data)
 void initialEnemies(EnemiesData &data)
 {
     srand(static_cast<unsigned int>(time(NULL)));
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < ENEMY_ROWS; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             data.enemies[i][j] = Enemies[2 - i];
             data.enemies[i][j].positionX = 15 + j * 10;
@@ -509,9 +509,9 @@ void MoveEnemies(GameObjects &gameObjects)
         data.dir = -data.dir;
     }
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < ENEMY_ROWS; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             if (!goDown)
             {
@@ -535,9 +535,9 @@ void MoveEnemies(GameObjects &gameObjects)
 
 void EraseEnemies(EnemiesData &data)
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < ENEMY_ROWS; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             if (data.enemies[i][j].isAlive)
             {
@@ -564,9 +564,9 @@ void EraseEnemies(EnemiesData &data)
 
 void DrawEnemies(EnemiesData &data)
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < ENEMY_ROWS; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             if (data.enemies[i][j].isAlive)
             {
@@ -586,9 +586,9 @@ void DrawEnemies(EnemiesData &data)
 }
 void CheckEnemyCollision(GameObjects &gameObjects)
 {
-    for (int i = 2; i >= 0; i--)
+    for (int i = ENEMY_ROWS - 1; i >= 0; i--)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             Enemy &enemy = gameObjects.enemiesData.enemies[i][j];
             if (enemy.isAlive &&
@@ -644,11 +644,11 @@ void FireEnemyBullet(GameObjects &gameObjects)
     if (!gameObjects.EnemyBullet.isActive)
     {
         srand(static_cast<unsigned int>(time(NULL)));
-        int i = rand() % 10;
+        int i = rand() % ENEMY_COLS;
         gameObjects.EnemyBullet = EnemyBullet;
         while (data.bottomEnemy[i] == nullptr)
         {
-            i = rand() % 10;
+            i = rand() % ENEMY_COLS;
         }
         gameObjects.EnemyBullet.positionX = (*data.bottomEnemy[i]).positionX + 2;
         gameObjects.EnemyBullet.positionY = (*data.bottomEnemy[i]).positionY + 3;
