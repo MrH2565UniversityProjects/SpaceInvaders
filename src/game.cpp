@@ -297,11 +297,11 @@ void PrintScreen()
 }
 void DrawShip(GameObjects &gameObjects)
 {
-    DrawEntity((int *)gameObjects.playerShip.entity, 2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
+    DrawEntity((int *)gameObjects.playerShip.entity, SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
 }
 void DrawWall(GameObjects &gameObjects)
 {
-    DrawEntity((int *)gameObjects.wall.entity, 5, 100, gameObjects.wall.positionX, gameObjects.wall.positionY, false);
+    DrawEntity((int *)gameObjects.wall.entity, WALL_ROWS, WALL_COLS, gameObjects.wall.positionX, gameObjects.wall.positionY, false);
 }
 void DrawLevel(GameOptions &game)
 {
@@ -336,15 +336,15 @@ void MoveShip(GameObjects &gameObjects, bool left)
     int i;
     if (left)
     {
-        EraseRight(2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY);
+        EraseRight(SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY);
         gameObjects.playerShip.positionX--;
     }
     else if (!left)
     {
-        EraseLeft(2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY);
+        EraseLeft(SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY);
         gameObjects.playerShip.positionX++;
     }
-    DrawEntity((int *)gameObjects.playerShip.entity, 2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
+    DrawEntity((int *)gameObjects.playerShip.entity, SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
 }
 void FirePlayerBullet(GameObjects &gameObjects)
 {
@@ -478,12 +478,12 @@ void CheckShipCollision(GameObjects &gameObjects, GameOptions &game)
 {
     int j = gameObjects.EnemyBullet.positionX - gameObjects.playerShip.positionX;
     int i = gameObjects.EnemyBullet.positionY - gameObjects.playerShip.positionY;
-    if ((i >= 0 && j >= 0 && j < 6 && i < 2) && gameObjects.playerShip.entity[i][j])
+    if ((i >= 0 && j >= 0 && j < SHIP_COLS && i < SHIP_ROWS) && gameObjects.playerShip.entity[i][j])
     {
         gameObjects.EnemyBullet.isActive = false;
         gameObjects.playerShip.health -= gameObjects.EnemyBullet.damage;
         DrawHealth(gameObjects, game);
-        DrawEntity((int *)gameObjects.playerShip.entity, 2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
+        DrawEntity((int *)gameObjects.playerShip.entity, SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
     }
 }
 void CheckWallCollision(GameObjects &gameObjects, Bullet &bullet)
@@ -491,7 +491,7 @@ void CheckWallCollision(GameObjects &gameObjects, Bullet &bullet)
     int j = bullet.positionX - gameObjects.wall.positionX;
     int i = bullet.positionY - gameObjects.wall.positionY;
 
-    if (gameObjects.wall.isActive && (i >= 0 && j >= 0 && j < 100 && i < 5) && gameObjects.wall.entity[i][j])
+    if (gameObjects.wall.isActive && (i >= 0 && j >= 0 && j < WALL_COLS && i < WALL_ROWS) && gameObjects.wall.entity[i][j])
     {
         bullet.isActive = false;
         gameObjects.wall.entity[i][j] = 0;
@@ -523,7 +523,7 @@ void MoveEnemies(GameObjects &gameObjects)
                 if (gameObjects.wall.isActive && data.enemies[i][j].positionY >= gameObjects.wall.positionY)
                 {
                     gameObjects.wall.isActive = false;
-                    EraseFill(5, 100, gameObjects.wall.positionX, gameObjects.wall.positionY);
+                    EraseFill(WALL_ROWS, WALL_COLS, gameObjects.wall.positionX, gameObjects.wall.positionY);
                 }
             }
             data.enemies[i][j].positionY += data.effectdir;
@@ -543,19 +543,19 @@ void EraseEnemies(EnemiesData &data)
             {
                 if ((data.effectdir > 0 || ((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightmostEnemy).positionX <= 5)))
                 {
-                    EraseUp(5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
+                    EraseUp(ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
                 else
                 {
-                    EraseDown(3, 5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
+                    EraseDown(ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
                 if (data.dir > 0)
                 {
-                    EraseLeft(3, 5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
+                    EraseLeft(ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
                 else
                 {
-                    EraseRight(3, 5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
+                    EraseRight(ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
             }
         }
@@ -579,7 +579,7 @@ void DrawEnemies(EnemiesData &data)
                 {
                     entity = (int *)data.enemies[i][j].entity2;
                 }
-                DrawEntity(entity, 3, 5, data.enemies[i][j].positionX, data.enemies[i][j].positionY, false);
+                DrawEntity(entity, ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY, false);
             }
         }
     }
@@ -612,7 +612,7 @@ void CheckEnemyCollision(GameObjects &gameObjects)
 
                     gameObjects.Score += enemy.Score;
                     DrawScore(gameObjects);
-                    EraseFill(3, 5, enemy.positionX, enemy.positionY);
+                    EraseFill(ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, enemy.positionX, enemy.positionY);
                 }
                 if (!(*gameObjects.enemiesData.rightmostEnemy).isAlive)
                 {
@@ -683,7 +683,7 @@ void CheckEnemySpaceshipCollision(GameObjects &gameObjects)
 {
     int j = gameObjects.playerBullet.positionX - gameObjects.EnemySpaceship.positionX;
     int i = gameObjects.playerBullet.positionY - gameObjects.EnemySpaceship.positionY;
-    if ((i >= 0 && j >= 0 && j < 8 && i < 2) && gameObjects.EnemySpaceship.entity[i][j])
+    if ((i >= 0 && j >= 0 && j < SPACESHIP_COLS && i < SPACESHIP_ROWS) && gameObjects.EnemySpaceship.entity[i][j])
     {
         if(settings.Sound){
                     PlayCollisionSound();
@@ -691,7 +691,7 @@ void CheckEnemySpaceshipCollision(GameObjects &gameObjects)
         gameObjects.EnemySpaceship.isAlive = false;
         gameObjects.Score += gameObjects.EnemySpaceship.Score;
         DrawScore(gameObjects);
-        EraseFill(2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+        EraseFill(SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
     }
 }
 void MoveEnemySpaceship(GameObjects &gameObjects)
@@ -699,30 +699,30 @@ void MoveEnemySpaceship(GameObjects &gameObjects)
     if (gameObjects.EnemySpaceship.direction)
         if (gameObjects.EnemySpaceship.positionX - 7 < widthScreen - 4)
         {
-            EraseLeft(2, 6, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+            EraseLeft(SHIP_ROWS, SHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
             gameObjects.EnemySpaceship.positionX++;
-            DrawEntity((int *)gameObjects.EnemySpaceship.entity, 2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY, false);
+            DrawEntity((int *)gameObjects.EnemySpaceship.entity, SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY, false);
         }
         else
         {
             gameObjects.EnemySpaceship.isAlive = false;
             gameObjects.EnemySpaceship.direction = false;
-            EraseFill(2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+            EraseFill(SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
         }
     else
     {
         if (gameObjects.EnemySpaceship.positionX > 4)
         {
-            EraseRight(2, 6, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+            EraseRight(SHIP_ROWS, SHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
             gameObjects.EnemySpaceship.positionX--;
-            DrawEntity((int *)gameObjects.EnemySpaceship.entity, 2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY, false);
+            DrawEntity((int *)gameObjects.EnemySpaceship.entity, SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY, false);
         }
         else
         {
 
             gameObjects.EnemySpaceship.isAlive = false;
             gameObjects.EnemySpaceship.direction = true;
-            EraseFill(2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+            EraseFill(SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
         }
     }
 }
