@@ -29,7 +29,7 @@ void LeaderboardMenu(){
     for(int i = 1;i <20;i++){
         if(i >= counter) break;
         table.Cells[i][0] = {players[i-1].name};
-        table.Cells[i][1] = {IntToString(players[i-1].score)};
+        table.Cells[i][1] = {to_string(players[i-1].score)};
     }
     while (form.isRunning)
     {

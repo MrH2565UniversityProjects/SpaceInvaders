@@ -34,8 +34,6 @@ void MoveCursorToTopLeft();
 /// Returns an empty string if ESC was pressed.
 [[nodiscard]] string GetInput(int maxLength);
 
-/// Converts an integer to its decimal string representation.
-[[nodiscard]] string IntToString(int number);
 
 /// Returns the start index that centers an item of length `itemLength`
 /// inside a region of length `totalLength`.

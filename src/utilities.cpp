@@ -129,23 +129,6 @@ string GetInput(int maxLength)
 
     return input;
 }
-string IntToString(int number)
-{
-    string result = "";
-    if (number == 0)
-    {
-        result = "0";
-    }
-    else
-    {
-        while (number > 0)
-        {
-            result = static_cast<char>('0' + (number % 10)) + result;
-            number /= 10;
-        }
-    }
-    return result;
-}
 int CalculateCenterIndex(int totalLength,int itemLength){
     return (totalLength-itemLength)/2;
 }

@@ -312,7 +312,7 @@ void DrawHealth(GameObjects &gameObjects, GameOptions &game)
 {
     Gotoxy(27, 2);
     if(game.maxHealth == 0) return;
-    string health = IntToString((gameObjects.playerShip.health * 100) / game.maxHealth) + "%";
+    string health = to_string((gameObjects.playerShip.health * 100) / game.maxHealth) + "%";
     cout << FG_WHITE << "    ";
     Gotoxy(27, 2);
     cout << FG_WHITE << health;
