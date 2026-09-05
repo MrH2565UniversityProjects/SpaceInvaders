@@ -969,12 +969,3 @@ void RunGame(GameOptions &game, bool loadGame)
             PlayBackgroundMusic();
 
 }
-/* int main()
-{
-    system("cls");
-    HideCursor();
-    SendMessage(GetConsoleWindow(), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
-    GameOptions game;
-    RunGame(game, true);
-    return 0;
-} */
