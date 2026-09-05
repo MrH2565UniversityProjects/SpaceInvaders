@@ -6,18 +6,18 @@
 using namespace std;
 
 void PlayEffectSound(const string& filePath) {
-    PlaySoundA(filePath.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+    PlaySoundA(filePath.c_str(), nullptr, SND_FILENAME | SND_ASYNC);
 }
 
 void PlaySoundFile(const string& alias, const string& filePath, bool loop = false) {
     string command = "open \"" + filePath + "\" type mpegvideo alias " + alias;
-    if (mciSendStringA(command.c_str(), NULL, 0, NULL) != 0) {
+    if (mciSendStringA(command.c_str(), nullptr, 0, nullptr) != 0) {
         cerr << "Error: Could not open file " << filePath << endl;
         return;
     }
 
     command = "play " + alias + (loop ? " repeat" : "");
-    if (mciSendStringA(command.c_str(), NULL, 0, NULL) != 0) {
+    if (mciSendStringA(command.c_str(), nullptr, 0, nullptr) != 0) {
         cerr << "Error: Could not play file " << filePath << endl;
         return;
     }
@@ -25,19 +25,19 @@ void PlaySoundFile(const string& alias, const string& filePath, bool loop = fals
 
 void StopSoundFile(const string& alias) {
     string command = "stop " + alias;
-    if (mciSendStringA(command.c_str(), NULL, 0, NULL) != 0) {
+    if (mciSendStringA(command.c_str(), nullptr, 0, nullptr) != 0) {
         cerr << "Error: Could not stop " << alias << endl;
     }
 
     command = "close " + alias;
-    if (mciSendStringA(command.c_str(), NULL, 0, NULL) != 0) {
+    if (mciSendStringA(command.c_str(), nullptr, 0, nullptr) != 0) {
         cerr << "Error: Could not close " << alias << endl;
     }
 }
 int GetSoundFileDuration(const string& alias) {
     char buffer[128];
     string command = "status " + alias + " length";
-    if (mciSendStringA(command.c_str(), buffer, sizeof(buffer), NULL) == 0) {
+    if (mciSendStringA(command.c_str(), buffer, sizeof(buffer), nullptr) == 0) {
         return stoi(buffer);
     }
     cerr << "Error: Could not get duration for " << alias << endl;

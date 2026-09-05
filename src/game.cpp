@@ -248,7 +248,7 @@ void SetBottommostEnemy(EnemiesData &data)
 }
 void initialEnemies(EnemiesData &data)
 {
-    srand(static_cast<unsigned int>(time(NULL)));
+    srand(static_cast<unsigned int>(time(nullptr)));
     for (int i = 0; i < ENEMY_ROWS; i++)
     {
         for (int j = 0; j < ENEMY_COLS; j++)
@@ -643,7 +643,7 @@ void FireEnemyBullet(GameObjects &gameObjects)
     EnemiesData &data = gameObjects.enemiesData;
     if (!gameObjects.EnemyBullet.isActive)
     {
-        srand(static_cast<unsigned int>(time(NULL)));
+        srand(static_cast<unsigned int>(time(nullptr)));
         int i = rand() % ENEMY_COLS;
         gameObjects.EnemyBullet = EnemyBullet;
         while (data.bottomEnemy[i] == nullptr)
