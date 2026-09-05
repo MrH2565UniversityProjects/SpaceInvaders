@@ -142,4 +142,7 @@ string GenerateANSI(int code) {
 
     string ansiCode = "\033[" + to_string((mode == 3 ? 38 : 48)) + ";5;" + to_string(colorCode) + "m";
     return ansiCode;
+}void MaximizeConsole()
+{
+    SendMessage(GetConsoleWindow(), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 }

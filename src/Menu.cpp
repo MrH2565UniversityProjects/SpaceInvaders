@@ -406,7 +406,7 @@ void MainMenu()
 int main()
 {
     ClearScreen();
-    SendMessage(GetConsoleWindow(), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+    MaximizeConsole();
     HideCursor();
     MainMenu();
     return 0;

@@ -22,6 +22,8 @@ void Gotoxy(int x, int y);
 
 /// Moves the console cursor back to the top-left corner.
 void MoveCursorToTopLeft();
+/// Maximizes the console window.
+void MaximizeConsole();
 
 /// Returns the current console cursor position.
 [[nodiscard]] Coordinate GetCursorPosition();
