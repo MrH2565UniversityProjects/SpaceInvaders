@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <cctype>
 #include <windows.h>
 #include <conio.h>
 #include <time.h>
@@ -422,7 +423,7 @@ void InputHandle(GameObjects &gameObjects, GameOptions &game)
     {
         char order;
         order = getch();
-        order = toupper(order);
+        order = std::toupper(static_cast<unsigned char>(order));
         if (order == settings.keybindings.Left_Player1 && gameObjects.playerShip.positionX > 6)
         {
             MoveShip(gameObjects, true);

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <cctype>
 #include <conio.h>
 #include <Windows.h>
 #include <math.h>
@@ -680,7 +681,7 @@ bool CanSelect(Element element)
 }
 void HandleNavigation(char input, Form &form, Display &display)
 {
-    input = tolower(input);
+    input = std::tolower(static_cast<unsigned char>(input));
     int visibleRows = display.end_row - display.start_row;
     int visibleCols = display.end_col - display.start_col;
     Position newUserPosition = display.userPosition;
@@ -842,9 +843,9 @@ void GetKeyboxValue(Keybox &keybox, Display &display, Coordinate elementPos)
             keybox.value = ' ';
             return;
         }
-        else if (isalnum(ch))
+        else if (std::isalnum(ch))
         {
-            keybox.value = toupper(ch);
+            keybox.value = std::toupper(ch);
             return;
         }
         else

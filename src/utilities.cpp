@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <fstream>
+#include <cctype>
 #include "utilities.h"
 #include "color.h"
 using namespace std;
@@ -51,7 +52,7 @@ Coordinate GetCursorPosition() {
 
 bool IsDigit(char ch)
 {
-    return ('0' <= ch) && ('9' >= ch);
+    return std::isdigit(static_cast<unsigned char>(ch));
 }
 string GetNumberInput(int maxLength, int cursorX, int cursorY)
 {
