@@ -51,7 +51,7 @@ void SurvivalGameplaySettings()
                 gameoptions.playerName = PlayerName.value;
                 gameoptions.SpaceshipType = SpaceshipType.SelectedIndex;
                 RunGame(gameoptions, false);
-                system("cls");
+                ClearScreen();
                 form.renderBackground = true;
                 break;
             case 1:
@@ -109,7 +109,7 @@ void CustomGameplaySettings()
                 gameoptions.SpaceshipType = SpaceshipType.SelectedIndex;
                 gameoptions.maxHealth = Health.value;
                 RunGame(gameoptions, false);
-                system("cls");
+                ClearScreen();
                 form.renderBackground = true;
                 break;
             case 1:
@@ -369,7 +369,7 @@ void MainMenu()
                 RunGame(gameoptions, true);
                 LoadGameButton.IsEnabled = fileExists("usersave.bin");
 
-                system("cls");
+                ClearScreen();
                 form.renderBackground = true;
                 break;
             case 2:
@@ -405,7 +405,7 @@ void MainMenu()
 }
 int main()
 {
-    system("cls");
+    ClearScreen();
     SendMessage(GetConsoleWindow(), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
     HideCursor();
     MainMenu();

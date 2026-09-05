@@ -902,7 +902,7 @@ void LoseAnimation()
 }
 void RunGame(GameOptions &game, bool loadGame)
 {
-    system("cls");
+    ClearScreen();
     HideCursor();
     
     game.difficulty = HARD;
@@ -930,7 +930,7 @@ void RunGame(GameOptions &game, bool loadGame)
         int currentScore = PlayLevel(game);
         if (game.status == RESETGAME)
         {
-            system("cls");
+            ClearScreen();
             continue;
         }
         game.Score += currentScore;
@@ -940,7 +940,7 @@ void RunGame(GameOptions &game, bool loadGame)
         }
         if (game.isWin)
         {
-            system("cls");
+            ClearScreen();
             NextLevel(game);
             level = game.currentLevel;
             game = maingame;
