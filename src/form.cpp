@@ -94,8 +94,8 @@ void DrawBox(int width, int height, string fg_color, string rest_color, int bord
 void RenderTable(Table &table, Display display)
 {
     Coordinate elementPos = {start_area.x, start_area.y};
-    elementPos.y += (table.position.row - display.start_row) * 4;
-    elementPos.x += (table.position.col) * 54;
+    elementPos.y += (table.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (table.position.col) * FORM_COL_STEP;
     int remainingWidth = table.totalWidth;
     int unassignedColsCount = 0;
 
@@ -217,10 +217,10 @@ void RenderButton(Button button, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (button.position.row - display.start_row) * 4;
-    elementPos.x += (button.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (button.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (button.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -241,10 +241,10 @@ void RenderTextbox(Textbox &textbox, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (textbox.position.row - display.start_row) * 4;
-    elementPos.x += (textbox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (textbox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (textbox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -278,10 +278,10 @@ void RenderKeybox(Keybox &keybox, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (keybox.position.row - display.start_row) * 4;
-    elementPos.x += (keybox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (keybox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (keybox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -328,10 +328,10 @@ void RenderLabel(Label label, Display display, Coordinate elementPos)
 {
     string fg_color = "";
     fg_color = display.secondaryColor;
-    elementPos.y += (label.position.row - display.start_row) * 4;
-    elementPos.x += (label.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = label.row * 4 - 1;
+    elementPos.y += (label.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (label.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = label.row * FORM_ROW_STEP - 1;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 3);
     for (int i = 0; i < label.linesCount; i++)
@@ -358,10 +358,10 @@ void RenderRangebar(Rangebar &Rangebar, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (Rangebar.position.row - display.start_row) * 4;
-    elementPos.x += (Rangebar.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (Rangebar.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (Rangebar.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -405,10 +405,10 @@ void RenderFooter(string text, string fg_color)
 }
 void RenderNullElement(Position position, Display display, Coordinate elementPos)
 {
-    elementPos.y += (position.row - display.start_row) * 4;
-    elementPos.x += (position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     for (int j = 0; j < height; j++)
     {
         Gotoxy(elementPos.x, elementPos.y + j);
@@ -433,10 +433,10 @@ void RenderCheckbox(Checkbox &checkbox, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (checkbox.position.row - display.start_row) * 4;
-    elementPos.x += (checkbox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (checkbox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (checkbox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -466,10 +466,10 @@ void RenderSelectbox(Selectbox &selectbox, Display display, Coordinate elementPo
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (selectbox.position.row - display.start_row) * 4;
-    elementPos.x += (selectbox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (selectbox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (selectbox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -767,10 +767,10 @@ void GetTextboxValue(Textbox &textbox, Display &display, Coordinate elementPos)
 {
     string fg_color = "";
     fg_color = FG_YELLOW;
-    int width = 50;
-    int height = 3;
-    elementPos.y += (textbox.position.row - display.start_row) * 4;
-    elementPos.x += (textbox.position.col) * 54;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
+    elementPos.y += (textbox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (textbox.position.col) * FORM_COL_STEP;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     RenderFooter("[Enter]: Set Value", display.secondaryColor);
@@ -786,10 +786,10 @@ void GetTextboxValue(Textbox &textbox, Display &display, Coordinate elementPos)
 void GetKeyboxValue(Keybox &keybox, Display &display, Coordinate elementPos)
 {
     string fg_color = FG_YELLOW;
-    elementPos.y += (keybox.position.row - display.start_row) * 4;
-    elementPos.x += (keybox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (keybox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (keybox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
