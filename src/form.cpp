@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <cctype>
 #include <conio.h>
 #include <Windows.h>
 #include <math.h>
@@ -93,8 +94,8 @@ void DrawBox(int width, int height, string fg_color, string rest_color, int bord
 void RenderTable(Table &table, Display display)
 {
     Coordinate elementPos = {start_area.x, start_area.y};
-    elementPos.y += (table.position.row - display.start_row) * 4;
-    elementPos.x += (table.position.col) * 54;
+    elementPos.y += (table.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (table.position.col) * FORM_COL_STEP;
     int remainingWidth = table.totalWidth;
     int unassignedColsCount = 0;
 
@@ -216,10 +217,10 @@ void RenderButton(Button button, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (button.position.row - display.start_row) * 4;
-    elementPos.x += (button.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (button.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (button.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -240,10 +241,10 @@ void RenderTextbox(Textbox &textbox, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (textbox.position.row - display.start_row) * 4;
-    elementPos.x += (textbox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (textbox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (textbox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -277,10 +278,10 @@ void RenderKeybox(Keybox &keybox, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (keybox.position.row - display.start_row) * 4;
-    elementPos.x += (keybox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (keybox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (keybox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -327,10 +328,10 @@ void RenderLabel(Label label, Display display, Coordinate elementPos)
 {
     string fg_color = "";
     fg_color = display.secondaryColor;
-    elementPos.y += (label.position.row - display.start_row) * 4;
-    elementPos.x += (label.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = label.row * 4 - 1;
+    elementPos.y += (label.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (label.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = label.row * FORM_ROW_STEP - 1;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 3);
     for (int i = 0; i < label.linesCount; i++)
@@ -357,10 +358,10 @@ void RenderRangebar(Rangebar &Rangebar, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (Rangebar.position.row - display.start_row) * 4;
-    elementPos.x += (Rangebar.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (Rangebar.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (Rangebar.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -404,10 +405,10 @@ void RenderFooter(string text, string fg_color)
 }
 void RenderNullElement(Position position, Display display, Coordinate elementPos)
 {
-    elementPos.y += (position.row - display.start_row) * 4;
-    elementPos.x += (position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     for (int j = 0; j < height; j++)
     {
         Gotoxy(elementPos.x, elementPos.y + j);
@@ -432,10 +433,10 @@ void RenderCheckbox(Checkbox &checkbox, Display display, Coordinate elementPos)
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (checkbox.position.row - display.start_row) * 4;
-    elementPos.x += (checkbox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (checkbox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (checkbox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -465,10 +466,10 @@ void RenderSelectbox(Selectbox &selectbox, Display display, Coordinate elementPo
     {
         fg_color = display.secondaryColor;
     }
-    elementPos.y += (selectbox.position.row - display.start_row) * 4;
-    elementPos.x += (selectbox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (selectbox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (selectbox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -680,7 +681,7 @@ bool CanSelect(Element element)
 }
 void HandleNavigation(char input, Form &form, Display &display)
 {
-    input = tolower(input);
+    input = std::tolower(static_cast<unsigned char>(input));
     int visibleRows = display.end_row - display.start_row;
     int visibleCols = display.end_col - display.start_col;
     Position newUserPosition = display.userPosition;
@@ -766,10 +767,10 @@ void GetTextboxValue(Textbox &textbox, Display &display, Coordinate elementPos)
 {
     string fg_color = "";
     fg_color = FG_YELLOW;
-    int width = 50;
-    int height = 3;
-    elementPos.y += (textbox.position.row - display.start_row) * 4;
-    elementPos.x += (textbox.position.col) * 54;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
+    elementPos.y += (textbox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (textbox.position.col) * FORM_COL_STEP;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     RenderFooter("[Enter]: Set Value", display.secondaryColor);
@@ -785,10 +786,10 @@ void GetTextboxValue(Textbox &textbox, Display &display, Coordinate elementPos)
 void GetKeyboxValue(Keybox &keybox, Display &display, Coordinate elementPos)
 {
     string fg_color = FG_YELLOW;
-    elementPos.y += (keybox.position.row - display.start_row) * 4;
-    elementPos.x += (keybox.position.col - display.start_col) * 54;
-    int width = 50;
-    int height = 3;
+    elementPos.y += (keybox.position.row - display.start_row) * FORM_ROW_STEP;
+    elementPos.x += (keybox.position.col - display.start_col) * FORM_COL_STEP;
+    int width = ELEMENT_WIDTH;
+    int height = ELEMENT_HEIGHT;
     Gotoxy(elementPos.x, elementPos.y);
     DrawBox(width, height, fg_color, display.secondaryColor, 2);
     Gotoxy(elementPos.x + 4, elementPos.y + (height / 2));
@@ -842,9 +843,9 @@ void GetKeyboxValue(Keybox &keybox, Display &display, Coordinate elementPos)
             keybox.value = ' ';
             return;
         }
-        else if (isalnum(ch))
+        else if (std::isalnum(ch))
         {
-            keybox.value = toupper(ch);
+            keybox.value = std::toupper(ch);
             return;
         }
         else
@@ -1062,94 +1063,3 @@ void InitialDisplay(Display &display)
     display.primaryColor = GenerateANSI(settings.PrimaryColor);
     display.secondaryColor = GenerateANSI(settings.SecondaryColor);
 }
-/* int main()
-{
-    system("cls");
-    Form form = {"Main", 15, 2, true, true};
-    Display display = {0, 4, 0, 0, {1, 0}};
-    SendMessage(GetConsoleWindow(), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
-    HideCursor();
-    RenderBackground();
-    InitialElementGrid(form);
-
-    Rangebar rangebar = {"FPS:", 10, 30, 24, false, {0, 0}};
-    Rangebar rangebar1 = {"Music:", 0, 100, 80, true, {0, 1}};
-    Keybox keyb = {"Shoot", 'X', {1, 0}};
-    // Checkbox checkbox = {"VSync", false, {1, 0}};
-    Checkbox checkbox1 = {"Motions", false, {1, 1}};
-    Checkbox checkbox2 = {"CHeck1", false, {4, 0}};
-    Checkbox checkbox3 = {"CHeck2", false, {5, 0}};
-    Checkbox checkbox4 = {"CHeck3", false, {6, 0}, false};
-    Checkbox checkbox5 = {"CHeck4", false, {7, 0}};
-    Checkbox checkbox6 = {"CHeck5", false, {8, 0}};
-    Label Test = {{{"█    █",6}, {"█▄▄▄▄█",6}}, 2, {0, 0}, 2};
-    Textbox textbox = {"Username:", "12345678910111213wwwwwwwwwwwwwwwwwww141516171819", "Please Enter Your number", "", false, true, {2, 0}};
-    Selectbox selectbox = {{{"Easy", 0}, {"Medium", 1}, {"Hard", 2}, {"Legend", 4}}, "Game Level", 4, 0, {3, 0}};
-    Button back = {"Back", {8, 1}};
-    AddLabelToForm(form, &Test);
-    AddRangebarToForm(form, &rangebar1);
-    // AddKeyboxToForm(form, &keyb);
-    AddCheckboxToForm(form, &checkbox1);
-    // AddCheckboxToForm(form,&checkbox2);
-    // AddCheckboxToForm(form,&checkbox3);
-    AddCheckboxToForm(form, &checkbox4);
-    AddCheckboxToForm(form, &checkbox5);
-    AddCheckboxToForm(form, &checkbox6);
-    AddTextboxToForm(form, &textbox);
-    AddSelectboxToForm(form, &selectbox);
-    AddButtonToForm(form, &back);
-    Messagebox msg = {"How To Play",
-                      {"Objective: Shoot all aliens before they reach you.",
-                       "Controls: Move with arrow keys, shoot with spacebar.",
-                       "Tips: Use shields for cover and shoot bonus UFOs for extra points.",
-                       "Game Over: Lose if aliens reach your base or you run out of lives."},
-                      4,
-                      INFORMATION,
-                      true};
-    while (true)
-    {
-        RenderForm(form, display);
-        Element SelectedElement = form.ElementsGrid[display.userPosition.row][display.userPosition.col];
-        RenderFooter(GetKeyHints(SelectedElement.type));
-        if (msg.IsEnabled)
-        {
-            ShowMessageBox(msg);
-            msg.IsEnabled = false;
-            RenderBackground();
-            continue;
-        }
-        char ch = getch();
-        HandleInput(ch, display, form);
-    }
-    CloseForm(form);
-    return 0;
-}
-/* int main()
-{
-    system("cls");
-    Form form = {"Main", 15, 2, false};
-    Display display = {0, 4, 0, 1, {0, 0}};
-    SendMessage(GetConsoleWindow(), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
-    HideCursor();
-    RenderBackground();
-    InitialElementGrid(form);
-
-    Checkbox checkbox = {"VSync", false, {0, 0}};
-    Selectbox selectbox = {{{"Easy", 0}, {"Medium", 1}, {"Hard", 2}, {"Legend", 4}}, "Game Level", 4, 0, {0, 1}};
-    Table table = {
-        104, 17, 3, 0, 7, {0, 50, 0}, {{{"Id"}, {"Name"}, {"Family"}}, {{"1"}, {"mdi"}, {"os"}}, {{"2"}, {"33"}, {"343"}}, {{"3"}, {"mdi"}, {"os"}}, {{"4"}, {"33"}, {"343"}}, {{"5"}, {"mdi"}, {"os"}}, {{"6"}, {"33"}, {"343"}}, {{"7"}, {"mdi"}, {"os"}}, {{"8"}, {"33"}, {"343"}}, {{"9"}, {"mdi"}, {"os"}}, {{"10"}, {"33"}, {"343"}}, {{"11"}, {"mdi"}, {"os"}}, {{"12"}, {"33"}, {"343"}}, {{"13"}, {"mdi"}, {"os"}}, {{"14"}, {"33"}, {"343"}}, {{"15"}, {"mdi"}, {"os"}}, {{"16"}, {"33"}, {"343"}}}, {1, 0}};
-    AddCheckboxToForm(form, &checkbox);
-    AddSelectboxToForm(form, &selectbox);
-    AddTableToForm(form, &table);
-    while (true)
-    {
-        RenderForm(form, display);
-        Element SelectedElement = form.ElementsGrid[display.userPosition.row][display.userPosition.col];
-        RenderFooter(GetKeyHints(SelectedElement.type));
-        char ch = getch();
-        HandleInput(ch, display, form);
-    }
-    CloseForm(form);
-    return 0;
-}
- */

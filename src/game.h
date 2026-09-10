@@ -1,4 +1,4 @@
-#pragma ones
+#pragma once
 #include <iostream>
 #include <cmath>
 #include <windows.h>
@@ -12,6 +12,16 @@ using namespace std;
 
 const unsigned short int lengthScreen = 41;
 const unsigned short int widthScreen = 120;
+const int ENEMY_ROWS = 3;
+const int ENEMY_COLS = 10;
+const int ENEMY_SPRITE_ROWS = 3;
+const int ENEMY_SPRITE_COLS = 5;
+const int SHIP_ROWS = 2;
+const int SHIP_COLS = 6;
+const int SPACESHIP_ROWS = 2;
+const int SPACESHIP_COLS = 8;
+const int WALL_ROWS = 5;
+const int WALL_COLS = 100;
 
 enum GameDifficulty{
     EASY,
@@ -24,7 +34,7 @@ struct EnemySpaceship
 {
 	bool direction;
 	bool isAlive;
-	int entity[2][8];
+	int entity[SPACESHIP_ROWS][SPACESHIP_COLS];
 	int Score;
 	int positionX;
 	int positionY;
@@ -70,7 +80,7 @@ struct Ship
 {
 	unsigned short int health;
 	unsigned short int bulletsCount;
-	int entity[2][6];
+	int entity[SHIP_ROWS][SHIP_COLS];
 	int positionX;
 	int positionY;
 };
@@ -78,9 +88,9 @@ struct Ship
 struct Enemy
 {
 	unsigned short int health;
-	int entity1[3][5];
-	int entity2[3][5];
-	bool IsOne = 0;
+	int entity1[ENEMY_SPRITE_ROWS][ENEMY_SPRITE_COLS];
+	int entity2[ENEMY_SPRITE_ROWS][ENEMY_SPRITE_COLS];
+	bool isFirstFrame = 0;
 	bool isAlive;
 	int Score = 100;
 	int positionX;
@@ -89,11 +99,11 @@ struct Enemy
 
 struct EnemiesData
 {
-	Enemy enemies[3][10];
+	Enemy enemies[ENEMY_ROWS][ENEMY_COLS];
 	Enemy *bottomEnemy[10] = {nullptr};
-	Enemy *bottomestEnemy = nullptr;
-	Enemy *leftestEnemy = nullptr;
-	Enemy *rightestEnemy = nullptr;
+	Enemy *bottommostEnemy = nullptr;
+	Enemy *leftmostEnemy = nullptr;
+	Enemy *rightmostEnemy = nullptr;
 	int aliveEnemyCount = 0;
 	int dir = 1;
 	int effectdir = 1;
@@ -104,7 +114,7 @@ struct Wall
 {
 	int PrimaryColor;
 	int SecondaryColor;
-	int entity[5][100];
+	int entity[WALL_ROWS][WALL_COLS];
 	int positionX;
 	int positionY;
 	bool isActive;

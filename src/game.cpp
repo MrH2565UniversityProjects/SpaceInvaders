@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <cctype>
 #include <windows.h>
 #include <conio.h>
 #include <time.h>
@@ -93,7 +94,7 @@ void EraseRight(int row, int col, int cursorX, int cursorY)
         cout << " " << FG_WHITE;
     }
 }
-string GenenrateCharacter(int code)
+string GenerateCharacter(int code)
 {
     switch (code)
     {
@@ -132,7 +133,7 @@ void DrawEntity(int *entity, int row, int col, int cursorX, int cursorY, bool is
             int value = *currentEntity++;
             if (!isErase && value > 0)
             {
-                string character = GenenrateCharacter((value % 10));
+                string character = GenerateCharacter((value % 10));
                 string color = GenerateANSI(value / 10);
                 if (color != lastColor)
                 {
@@ -182,30 +183,30 @@ void CreateLevel(GameOptions &game)
     startLevel.health = game.maxHealth;
     game.currentLevel = startLevel;
 }
-void SetRightestEnemy(EnemiesData &data)
+void SetRightmostEnemy(EnemiesData &data)
 {
-    for (int i = 9; i >= 0; i--)
+    for (int i = ENEMY_COLS - 1; i >= 0; i--)
     {
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < ENEMY_ROWS; j++)
         {
             if (data.enemies[j][i].isAlive)
             {
-                data.rightestEnemy = &data.enemies[j][i];
+                data.rightmostEnemy = &data.enemies[j][i];
                 break;
             }
         }
     }
 }
 
-void SetLeftestEnemy(EnemiesData &data)
+void SetLeftmostEnemy(EnemiesData &data)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < ENEMY_COLS; i++)
     {
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < ENEMY_ROWS; j++)
         {
             if (data.enemies[j][i].isAlive)
             {
-                data.leftestEnemy = &data.enemies[j][i];
+                data.leftmostEnemy = &data.enemies[j][i];
                 break;
             }
         }
@@ -213,11 +214,11 @@ void SetLeftestEnemy(EnemiesData &data)
 }
 void SetBottomEnemies(EnemiesData &data, bool initialMode)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < ENEMY_COLS; i++)
     {
         // bool check = (initialMode || data.bottomEnemy[i] != nullptr) && (data.bottomEnemy[i] == nullptr || (*data.bottomEnemy[i]).isAlive);
         // for (int j = 2; j >= -1 && check; j--)
-        for (int j = 2; j >= -1; j--)
+        for (int j = ENEMY_ROWS - 1; j >= -1; j--)
         {
             if (j == -1)
                 data.bottomEnemy[i] = nullptr;
@@ -232,15 +233,15 @@ void SetBottomEnemies(EnemiesData &data, bool initialMode)
         }
     }
 }
-void SetBottomestEnemy(EnemiesData &data)
+void SetBottommostEnemy(EnemiesData &data)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < ENEMY_COLS; i++)
     {
-        for (int j = 2; j >= 0; j--)
+        for (int j = ENEMY_ROWS - 1; j >= 0; j--)
         {
             if (data.enemies[j][i].isAlive)
             {
-                data.bottomestEnemy = &data.enemies[j][i];
+                data.bottommostEnemy = &data.enemies[j][i];
                 break;
             }
         }
@@ -248,10 +249,10 @@ void SetBottomestEnemy(EnemiesData &data)
 }
 void initialEnemies(EnemiesData &data)
 {
-    srand(static_cast<unsigned int>(time(NULL)));
-    for (int i = 0; i < 3; i++)
+    srand(static_cast<unsigned int>(time(nullptr)));
+    for (int i = 0; i < ENEMY_ROWS; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             data.enemies[i][j] = Enemies[2 - i];
             data.enemies[i][j].positionX = 15 + j * 10;
@@ -264,9 +265,9 @@ void initialEnemies(EnemiesData &data)
             //}
         }
     }
-    SetRightestEnemy(data);
-    SetLeftestEnemy(data);
-    SetBottomestEnemy(data);
+    SetRightmostEnemy(data);
+    SetLeftmostEnemy(data);
+    SetBottommostEnemy(data);
     SetBottomEnemies(data, true);
 }
 GameObjects InitializeGameObjects(GameOptions &game)
@@ -297,11 +298,11 @@ void PrintScreen()
 }
 void DrawShip(GameObjects &gameObjects)
 {
-    DrawEntity((int *)gameObjects.playerShip.entity, 2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
+    DrawEntity((int *)gameObjects.playerShip.entity, SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
 }
 void DrawWall(GameObjects &gameObjects)
 {
-    DrawEntity((int *)gameObjects.wall.entity, 5, 100, gameObjects.wall.positionX, gameObjects.wall.positionY, false);
+    DrawEntity((int *)gameObjects.wall.entity, WALL_ROWS, WALL_COLS, gameObjects.wall.positionX, gameObjects.wall.positionY, false);
 }
 void DrawLevel(GameOptions &game)
 {
@@ -312,7 +313,7 @@ void DrawHealth(GameObjects &gameObjects, GameOptions &game)
 {
     Gotoxy(27, 2);
     if(game.maxHealth == 0) return;
-    string health = IntToString((gameObjects.playerShip.health * 100) / game.maxHealth) + "%";
+    string health = to_string((gameObjects.playerShip.health * 100) / game.maxHealth) + "%";
     cout << FG_WHITE << "    ";
     Gotoxy(27, 2);
     cout << FG_WHITE << health;
@@ -336,15 +337,15 @@ void MoveShip(GameObjects &gameObjects, bool left)
     int i;
     if (left)
     {
-        EraseRight(2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY);
+        EraseRight(SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY);
         gameObjects.playerShip.positionX--;
     }
     else if (!left)
     {
-        EraseLeft(2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY);
+        EraseLeft(SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY);
         gameObjects.playerShip.positionX++;
     }
-    DrawEntity((int *)gameObjects.playerShip.entity, 2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
+    DrawEntity((int *)gameObjects.playerShip.entity, SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
 }
 void FirePlayerBullet(GameObjects &gameObjects)
 {
@@ -372,7 +373,7 @@ void ShowPauseMenu(GameOptions &game)
     Button ContinueButton = {"Continue", {0, 0}, true, 0};
     Button RestartButton = {"Restart Game", {1, 0}, true, 2};
     Button QuitButton = {"Quit Game", {2, 0}, true, 3};
-    Button ExitButton = {"Exit Space Invadors", {3, 0}, true, 4};
+    Button ExitButton = {"Exit Space Invaders", {3, 0}, true, 4};
     InitialElementGrid(form);
     AddButtonToForm(form, &ContinueButton);
     AddButtonToForm(form, &RestartButton);
@@ -422,7 +423,7 @@ void InputHandle(GameObjects &gameObjects, GameOptions &game)
     {
         char order;
         order = getch();
-        order = toupper(order);
+        order = std::toupper(static_cast<unsigned char>(order));
         if (order == settings.keybindings.Left_Player1 && gameObjects.playerShip.positionX > 6)
         {
             MoveShip(gameObjects, true);
@@ -478,12 +479,12 @@ void CheckShipCollision(GameObjects &gameObjects, GameOptions &game)
 {
     int j = gameObjects.EnemyBullet.positionX - gameObjects.playerShip.positionX;
     int i = gameObjects.EnemyBullet.positionY - gameObjects.playerShip.positionY;
-    if ((i >= 0 && j >= 0 && j < 6 && i < 2) && gameObjects.playerShip.entity[i][j])
+    if ((i >= 0 && j >= 0 && j < SHIP_COLS && i < SHIP_ROWS) && gameObjects.playerShip.entity[i][j])
     {
         gameObjects.EnemyBullet.isActive = false;
         gameObjects.playerShip.health -= gameObjects.EnemyBullet.damage;
         DrawHealth(gameObjects, game);
-        DrawEntity((int *)gameObjects.playerShip.entity, 2, 6, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
+        DrawEntity((int *)gameObjects.playerShip.entity, SHIP_ROWS, SHIP_COLS, gameObjects.playerShip.positionX, gameObjects.playerShip.positionY, false);
     }
 }
 void CheckWallCollision(GameObjects &gameObjects, Bullet &bullet)
@@ -491,7 +492,7 @@ void CheckWallCollision(GameObjects &gameObjects, Bullet &bullet)
     int j = bullet.positionX - gameObjects.wall.positionX;
     int i = bullet.positionY - gameObjects.wall.positionY;
 
-    if (gameObjects.wall.isActive && (i >= 0 && j >= 0 && j < 100 && i < 5) && gameObjects.wall.entity[i][j])
+    if (gameObjects.wall.isActive && (i >= 0 && j >= 0 && j < WALL_COLS && i < WALL_ROWS) && gameObjects.wall.entity[i][j])
     {
         bullet.isActive = false;
         gameObjects.wall.entity[i][j] = 0;
@@ -503,15 +504,15 @@ void MoveEnemies(GameObjects &gameObjects)
 {
     bool goDown = false;
     EnemiesData &data = gameObjects.enemiesData;
-    if (((data.dir == 1) && (*data.leftestEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightestEnemy).positionX <= 11))
+    if (((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightmostEnemy).positionX <= 11))
     {
         goDown = true;
         data.dir = -data.dir;
     }
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < ENEMY_ROWS; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             if (!goDown)
             {
@@ -523,11 +524,11 @@ void MoveEnemies(GameObjects &gameObjects)
                 if (gameObjects.wall.isActive && data.enemies[i][j].positionY >= gameObjects.wall.positionY)
                 {
                     gameObjects.wall.isActive = false;
-                    EraseFill(5, 100, gameObjects.wall.positionX, gameObjects.wall.positionY);
+                    EraseFill(WALL_ROWS, WALL_COLS, gameObjects.wall.positionX, gameObjects.wall.positionY);
                 }
             }
             data.enemies[i][j].positionY += data.effectdir;
-            data.enemies[i][j].IsOne = !data.enemies[i][j].IsOne;
+            data.enemies[i][j].isFirstFrame = !data.enemies[i][j].isFirstFrame;
         }
     }
     data.effectdir = -data.effectdir;
@@ -535,27 +536,27 @@ void MoveEnemies(GameObjects &gameObjects)
 
 void EraseEnemies(EnemiesData &data)
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < ENEMY_ROWS; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             if (data.enemies[i][j].isAlive)
             {
-                if ((data.effectdir > 0 || ((data.dir == 1) && (*data.leftestEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightestEnemy).positionX <= 5)))
+                if ((data.effectdir > 0 || ((data.dir == 1) && (*data.leftmostEnemy).positionX >= 110) || ((data.dir == -1) && (*data.rightmostEnemy).positionX <= 5)))
                 {
-                    EraseUp(5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
+                    EraseUp(ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
                 else
                 {
-                    EraseDown(3, 5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
+                    EraseDown(ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
                 if (data.dir > 0)
                 {
-                    EraseLeft(3, 5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
+                    EraseLeft(ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
                 else
                 {
-                    EraseRight(3, 5, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
+                    EraseRight(ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY);
                 }
             }
         }
@@ -564,14 +565,14 @@ void EraseEnemies(EnemiesData &data)
 
 void DrawEnemies(EnemiesData &data)
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < ENEMY_ROWS; i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             if (data.enemies[i][j].isAlive)
             {
                 int *entity = nullptr;
-                if (data.enemies[i][j].IsOne)
+                if (data.enemies[i][j].isFirstFrame)
                 {
                     entity = (int *)data.enemies[i][j].entity1;
                 }
@@ -579,16 +580,16 @@ void DrawEnemies(EnemiesData &data)
                 {
                     entity = (int *)data.enemies[i][j].entity2;
                 }
-                DrawEntity(entity, 3, 5, data.enemies[i][j].positionX, data.enemies[i][j].positionY, false);
+                DrawEntity(entity, ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, data.enemies[i][j].positionX, data.enemies[i][j].positionY, false);
             }
         }
     }
 }
 void CheckEnemyCollision(GameObjects &gameObjects)
 {
-    for (int i = 2; i >= 0; i--)
+    for (int i = ENEMY_ROWS - 1; i >= 0; i--)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < ENEMY_COLS; j++)
         {
             Enemy &enemy = gameObjects.enemiesData.enemies[i][j];
             if (enemy.isAlive &&
@@ -602,7 +603,7 @@ void CheckEnemyCollision(GameObjects &gameObjects)
                 Gotoxy(gameObjects.playerBullet.positionX, gameObjects.playerBullet.positionY);
                 cout << " ";
                 if(settings.Sound){
-                    PlayColistionSound();
+                    PlayCollisionSound();
                 }
                 if (enemy.health <= 0)
                 {
@@ -612,19 +613,19 @@ void CheckEnemyCollision(GameObjects &gameObjects)
 
                     gameObjects.Score += enemy.Score;
                     DrawScore(gameObjects);
-                    EraseFill(3, 5, enemy.positionX, enemy.positionY);
+                    EraseFill(ENEMY_SPRITE_ROWS, ENEMY_SPRITE_COLS, enemy.positionX, enemy.positionY);
                 }
-                if (!(*gameObjects.enemiesData.rightestEnemy).isAlive)
+                if (!(*gameObjects.enemiesData.rightmostEnemy).isAlive)
                 {
-                    SetRightestEnemy(gameObjects.enemiesData);
+                    SetRightmostEnemy(gameObjects.enemiesData);
                 }
-                if (!(*gameObjects.enemiesData.leftestEnemy).isAlive)
+                if (!(*gameObjects.enemiesData.leftmostEnemy).isAlive)
                 {
-                    SetLeftestEnemy(gameObjects.enemiesData);
+                    SetLeftmostEnemy(gameObjects.enemiesData);
                 }
-                if (!(*gameObjects.enemiesData.bottomestEnemy).isAlive)
+                if (!(*gameObjects.enemiesData.bottommostEnemy).isAlive)
                 {
-                    SetBottomestEnemy(gameObjects.enemiesData);
+                    SetBottommostEnemy(gameObjects.enemiesData);
                 }
                 SetBottomEnemies(gameObjects.enemiesData, false);
 
@@ -643,12 +644,12 @@ void FireEnemyBullet(GameObjects &gameObjects)
     EnemiesData &data = gameObjects.enemiesData;
     if (!gameObjects.EnemyBullet.isActive)
     {
-        srand(static_cast<unsigned int>(time(NULL)));
-        int i = rand() % 10;
+        srand(static_cast<unsigned int>(time(nullptr)));
+        int i = rand() % ENEMY_COLS;
         gameObjects.EnemyBullet = EnemyBullet;
         while (data.bottomEnemy[i] == nullptr)
         {
-            i = rand() % 10;
+            i = rand() % ENEMY_COLS;
         }
         gameObjects.EnemyBullet.positionX = (*data.bottomEnemy[i]).positionX + 2;
         gameObjects.EnemyBullet.positionY = (*data.bottomEnemy[i]).positionY + 3;
@@ -673,7 +674,7 @@ void MoveEnemyBullet(GameObjects &gameObjects)
 }
 bool CheckEnemyCatchShip(GameObjects &gameObjects)
 {
-    return (*gameObjects.enemiesData.bottomestEnemy).positionY + 3 >= gameObjects.playerShip.positionY;
+    return (*gameObjects.enemiesData.bottommostEnemy).positionY + 3 >= gameObjects.playerShip.positionY;
 }
 bool CheckShipAlive(GameObjects &gameObjects)
 {
@@ -683,15 +684,15 @@ void CheckEnemySpaceshipCollision(GameObjects &gameObjects)
 {
     int j = gameObjects.playerBullet.positionX - gameObjects.EnemySpaceship.positionX;
     int i = gameObjects.playerBullet.positionY - gameObjects.EnemySpaceship.positionY;
-    if ((i >= 0 && j >= 0 && j < 8 && i < 2) && gameObjects.EnemySpaceship.entity[i][j])
+    if ((i >= 0 && j >= 0 && j < SPACESHIP_COLS && i < SPACESHIP_ROWS) && gameObjects.EnemySpaceship.entity[i][j])
     {
         if(settings.Sound){
-                    PlayColistionSound();
+                    PlayCollisionSound();
             }
         gameObjects.EnemySpaceship.isAlive = false;
         gameObjects.Score += gameObjects.EnemySpaceship.Score;
         DrawScore(gameObjects);
-        EraseFill(2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+        EraseFill(SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
     }
 }
 void MoveEnemySpaceship(GameObjects &gameObjects)
@@ -699,30 +700,30 @@ void MoveEnemySpaceship(GameObjects &gameObjects)
     if (gameObjects.EnemySpaceship.direction)
         if (gameObjects.EnemySpaceship.positionX - 7 < widthScreen - 4)
         {
-            EraseLeft(2, 6, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+            EraseLeft(SHIP_ROWS, SHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
             gameObjects.EnemySpaceship.positionX++;
-            DrawEntity((int *)gameObjects.EnemySpaceship.entity, 2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY, false);
+            DrawEntity((int *)gameObjects.EnemySpaceship.entity, SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY, false);
         }
         else
         {
             gameObjects.EnemySpaceship.isAlive = false;
             gameObjects.EnemySpaceship.direction = false;
-            EraseFill(2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+            EraseFill(SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
         }
     else
     {
         if (gameObjects.EnemySpaceship.positionX > 4)
         {
-            EraseRight(2, 6, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+            EraseRight(SHIP_ROWS, SHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
             gameObjects.EnemySpaceship.positionX--;
-            DrawEntity((int *)gameObjects.EnemySpaceship.entity, 2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY, false);
+            DrawEntity((int *)gameObjects.EnemySpaceship.entity, SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY, false);
         }
         else
         {
 
             gameObjects.EnemySpaceship.isAlive = false;
             gameObjects.EnemySpaceship.direction = true;
-            EraseFill(2, 8, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
+            EraseFill(SPACESHIP_ROWS, SPACESHIP_COLS, gameObjects.EnemySpaceship.positionX, gameObjects.EnemySpaceship.positionY);
         }
     }
 }
@@ -902,7 +903,7 @@ void LoseAnimation()
 }
 void RunGame(GameOptions &game, bool loadGame)
 {
-    system("cls");
+    ClearScreen();
     HideCursor();
     
     game.difficulty = HARD;
@@ -930,7 +931,7 @@ void RunGame(GameOptions &game, bool loadGame)
         int currentScore = PlayLevel(game);
         if (game.status == RESETGAME)
         {
-            system("cls");
+            ClearScreen();
             continue;
         }
         game.Score += currentScore;
@@ -940,7 +941,7 @@ void RunGame(GameOptions &game, bool loadGame)
         }
         if (game.isWin)
         {
-            system("cls");
+            ClearScreen();
             NextLevel(game);
             level = game.currentLevel;
             game = maingame;
@@ -969,12 +970,3 @@ void RunGame(GameOptions &game, bool loadGame)
             PlayBackgroundMusic();
 
 }
-/* int main()
-{
-    system("cls");
-    HideCursor();
-    SendMessage(GetConsoleWindow(), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
-    GameOptions game;
-    RunGame(game, true);
-    return 0;
-} */

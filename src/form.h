@@ -6,6 +6,10 @@ using namespace std;
 const Coordinate start_area = {12, 8};
 const Coordinate end_area = {116, 25};
 const Coordinate footer_area = {12, 29};
+const int ELEMENT_WIDTH = 50;
+const int ELEMENT_HEIGHT = 3;
+const int FORM_ROW_STEP = 4;
+const int FORM_COL_STEP = 54;
 const string blank_form = R"(
     ╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
     ║       _______  _____  _______ _______ _______      _____ __   _ _    _ _______ ______  _______  ______ _______       ║

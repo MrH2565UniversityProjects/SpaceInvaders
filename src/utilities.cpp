@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <fstream>
+#include <cctype>
 #include "utilities.h"
 #include "color.h"
 using namespace std;
@@ -51,7 +52,7 @@ Coordinate GetCursorPosition() {
 
 bool IsDigit(char ch)
 {
-    return ('0' <= ch) && ('9' >= ch);
+    return std::isdigit(static_cast<unsigned char>(ch));
 }
 string GetNumberInput(int maxLength, int cursorX, int cursorY)
 {
@@ -129,23 +130,6 @@ string GetInput(int maxLength)
 
     return input;
 }
-string IntToString(int number)
-{
-    string result = "";
-    if (number == 0)
-    {
-        result = "0";
-    }
-    else
-    {
-        while (number > 0)
-        {
-            result = static_cast<char>('0' + (number % 10)) + result;
-            number /= 10;
-        }
-    }
-    return result;
-}
 int CalculateCenterIndex(int totalLength,int itemLength){
     return (totalLength-itemLength)/2;
 }
@@ -159,4 +143,7 @@ string GenerateANSI(int code) {
 
     string ansiCode = "\033[" + to_string((mode == 3 ? 38 : 48)) + ";5;" + to_string(colorCode) + "m";
     return ansiCode;
+}void MaximizeConsole()
+{
+    SendMessage(GetConsoleWindow(), WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 }
